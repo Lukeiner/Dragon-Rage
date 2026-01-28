@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,8 @@ public class HUD : MonoBehaviour
 
     public GameObject panelGameOver;
     public GameObject pausePanel;
+    public TextMeshProUGUI enemiesDestroyed;
+
     private bool onPause = false;
     public bool gameFinished = false;
 
@@ -18,6 +21,8 @@ public class HUD : MonoBehaviour
         {
             lifes[i].SetActive(true);
         }
+
+        enemiesDestroyed.SetText("Enemigos derrotados: ");
         
     }
 
@@ -71,5 +76,10 @@ public class HUD : MonoBehaviour
     public void LifeOn(int i)
     {
         lifes[i].SetActive(true);
+    }
+
+    public void updateEnemiesCount (int e)
+    {
+        enemiesDestroyed.SetText("Enemigos derrotados: " + e);
     }
 }

@@ -26,6 +26,8 @@ public class DragonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.gameFinished) return;
+
         inputs.x = Input.GetAxisRaw("Horizontal");
         inputs.y = Input.GetAxisRaw("Vertical");
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

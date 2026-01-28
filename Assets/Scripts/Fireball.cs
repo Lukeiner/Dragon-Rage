@@ -18,7 +18,7 @@ public class Fireball : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Destroy(gameObject);
-
+            GameManager.instance.enemyKilled();
             Debug.Log("Enemigo abatido!");
         }
     }

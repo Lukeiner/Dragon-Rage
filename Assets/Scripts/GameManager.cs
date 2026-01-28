@@ -8,16 +8,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [Header("UI References")]
+
     public TextMeshProUGUI textPoints;
     public TextMeshProUGUI lifePoints;
 
     [Header("Estadística")]
-    public int points = 0;
     public int lifes = 3;
 
     public bool gameFinished = false;
     public HUD hud;
+    public int enemiesToWin = 10;
+    private int defeatedCount = 0;
 
     private void Awake()
     {
@@ -37,6 +38,11 @@ public class GameManager : MonoBehaviour
        
     }
 
+    public int getLifes()
+    {
+        return lifes;
+    }
+
     public void EndGame()
     {
         if (gameFinished) return;
@@ -50,6 +56,15 @@ public class GameManager : MonoBehaviour
     {
         lifes--;
         hud.LifeOff(lifes);
+    }
+
+    public void enemyKilled()
+    {
+        defeatedCount++;
+        if (defeatedCount < enemiesToWin)
+        {
+            hud.updateEnemiesCount(defeatedCount);
+        }
     }
 
 }

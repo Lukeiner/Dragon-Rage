@@ -2,23 +2,37 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPreFab;
     public float SpawnTime = 2f;
     public float rangeX = 8f;
+    private float cronometro;
 
     void Start()
     {
-        InvokeRepeating("SpawnEnemy", 1f, SpawnTime);
+        
+    }
+
+    private void Update()
+    {
+        cronometro += Time.deltaTime;
+
+        if (cronometro >= SpawnTime)
+        {
+            SpawnEnemy();
+            cronometro = 0;
+        }
     }
 
     void SpawnEnemy()
     {
-        if (GameManager.instance.gameFinished)  return;
+        if ((GameManager.instance.gameFinished) || (enemyPreFab.Length) <= 0)  return;
+
+        int RandomInd = Random.Range(0, enemyPreFab.Length);
 
         float xAleatory = Random.Range(-rangeX, rangeX);
         Vector3 SpawnPos = new Vector3(xAleatory, 6f, 0f);
 
-        Instantiate(enemyPrefab, SpawnPos, Quaternion.identity);
+        Instantiate(enemyPreFab[RandomInd], SpawnPos, Quaternion.identity);
 
     }
 

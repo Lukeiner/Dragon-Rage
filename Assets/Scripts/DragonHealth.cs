@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DragonHealth : MonoBehaviour
 {
+    public static DragonHealth instance;
     public int healthMax = 3;
     private int healthActual;
 
