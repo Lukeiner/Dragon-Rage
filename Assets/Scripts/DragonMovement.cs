@@ -12,6 +12,7 @@ public class DragonMovement : MonoBehaviour
     private float objectHeight;
     public GameObject fireballPrefab;
     public Transform puntoDeDisparo;
+    DragonHealth salud;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class DragonMovement : MonoBehaviour
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
         objectWidth = transform.GetComponent<SpriteRenderer> ().bounds.size.x/2;
         objectHeight = transform.GetComponent<SpriteRenderer>().bounds.size.y/2;
+        salud = GetComponent<DragonHealth>();
     }
 
     // Update is called once per frame
@@ -39,6 +41,7 @@ public class DragonMovement : MonoBehaviour
         {
             Disparar();
         }
+
     }
 
     void Disparar ()
@@ -63,9 +66,18 @@ public class DragonMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Aquí tienes inmunda bestia");
-            GameManager.instance.EndGame();
-            Destroy(gameObject);
+            GameManager.instance.LoseLifes();
+            if (salud.getActualHealth() > 1)
+            { 
+                salud.getDamage(1);
+                Destroy(collision.gameObject);
+            }
+            else
+            {
+                salud.getDamage(1);
+                Debug.Log("Aquí tienes inmunda bestia");
+                Destroy(gameObject);
+            }
         }
     }
 

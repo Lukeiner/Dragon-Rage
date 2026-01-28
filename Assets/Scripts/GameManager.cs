@@ -1,18 +1,23 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     [Header("UI References")]
-    public GameObject panelGameOver;
-    public GameObject pausePanel;
+    public TextMeshProUGUI textPoints;
+    public TextMeshProUGUI lifePoints;
 
+    [Header("Estadística")]
     public int points = 0;
+    public int lifes = 3;
+
     public bool gameFinished = false;
-    private bool onPause = false;
+    public HUD hud;
 
     private void Awake()
     {
@@ -21,68 +26,30 @@ public class GameManager : MonoBehaviour
             instance = this;
             Time.timeScale = 1f;
         }
-
         else
         {
             Destroy(gameObject);
         }
     }
 
-    public void EndGame ()
+    private void Start()
+    {
+       
+    }
+
+    public void EndGame()
     {
         if (gameFinished) return;
 
         gameFinished = true;
         Debug.Log("Game Over");
         Time.timeScale = 0f;
-
-        if (panelGameOver != null)
-        {
-            panelGameOver.SetActive(true);
-        }
     }
-  
-    public void RestartLevel ()
+
+    public void LoseLifes ()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        lifes--;
+        hud.LifeOff(lifes);
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (onPause)
-            {
-                Continuar();
-            }
-            else
-            {
-                Pausar();
-            }
-        }
-    }
-
-    public void Pausar ()
-    {
-        onPause = true;
-        Time.timeScale = 0f;
-        pausePanel.SetActive(true);
-    }
-
-    public void Continuar ()
-    {
-        onPause = false;
-        Time.timeScale = 1f;
-        pausePanel.SetActive(false);
-
-    }
-
-    public void SalirAlMenu()
-    {
-        Application.Quit();
-        Debug.Log("Salimos");
-    }
-
 
 }
