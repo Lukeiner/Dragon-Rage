@@ -8,17 +8,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-
-    public TextMeshProUGUI textPoints;
-    public TextMeshProUGUI lifePoints;
-
     [Header("Estadística")]
-    public int lifes = 3;
+    private int lifes;
 
     public bool gameFinished = false;
+    private bool firstLevelWin = false;
     public HUD hud;
     public int enemiesToWin = 10;
     private int defeatedCount = 0;
+
+    public GameObject eggPreFab;
+
 
     private void Awake()
     {
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             Time.timeScale = 1f;
+            
         }
         else
         {
@@ -35,7 +36,21 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-       
+        if (DragonHealth.instance != null)
+        {
+            lifes = DragonHealth.instance.getActualHealth();
+        }
+        
+    }
+
+    public bool firstLevelWon ()
+    {
+        return firstLevelWin;
+    }
+
+    private void setLifes(int l)
+    {
+        lifes = l;
     }
 
     public int getLifes()
@@ -49,13 +64,25 @@ public class GameManager : MonoBehaviour
 
         gameFinished = true;
         Debug.Log("Game Over");
+
+        if (hud.panelGameOver != null)
+        {
+            hud.panelGameOver.SetActive(true);
+        }
         Time.timeScale = 0f;
+        
     }
 
     public void LoseLifes ()
     {
-        lifes--;
-        hud.LifeOff(lifes);
+        if (DragonHealth.instance == null)
+        {
+            Debug.LogError("¡DragonHealth.instance no existe!");
+            return;
+        }
+        
+        DragonHealth.instance.getDamage(1);
+        hud.LifeOff(DragonHealth.instance.getActualHealth());
     }
 
     public void enemyKilled()
@@ -65,6 +92,29 @@ public class GameManager : MonoBehaviour
         {
             hud.updateEnemiesCount(defeatedCount);
         }
+        else
+        {
+            SecuenciaVictoria();
+        }
+    }
+
+    void SecuenciaVictoria()
+    {
+        firstLevelWin = true;
+        Object.FindFirstObjectByType<Spawner>().StopSpawn();
+
+        foreach (GameObject enemigo in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(enemigo);
+        }
+        
+        Object.FindFirstObjectByType<DragonMovement>().startReturn();
+    }
+
+    public void appearEgg()
+    {
+        Instantiate(eggPreFab, Vector3.zero, Quaternion.identity);
+        Debug.Log("El huevo ha descendido");
     }
 
 }

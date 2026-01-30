@@ -8,8 +8,21 @@ public class DragonHealth : MonoBehaviour
 
     void Awake()
     {
-        healthActual = healthMax;
-       // GameManager.instance.updateUILife(healthMax);
+        if (instance == null)
+        {
+            instance = this; 
+            healthActual = healthMax;
+        }
+        else
+        {
+            Destroy(gameObject); 
+        }
+        
+    }
+
+    public int getMaxHealth()
+    {
+        return healthMax;
     }
 
     public int getActualHealth()
@@ -19,16 +32,18 @@ public class DragonHealth : MonoBehaviour
 
     public void getDamage (int dam)
     {
-        if (healthActual > 1)
-        {
-            healthActual -= dam;
-            Debug.Log("Salud del Dragon: " + healthActual);
+       
+         healthActual -= dam;
+
+         if (healthActual < 0) healthActual = 0;
+
+         Debug.Log("Salud del Dragon: " + healthActual);
+
+        if (healthActual <= 0)
+            {
+                Morir();
+            }
         }
-        else
-        {
-            Morir();
-        }
-    }
     void Morir()
         {
             Debug.Log("El dragon ha caido");

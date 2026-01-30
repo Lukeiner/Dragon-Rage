@@ -5,14 +5,17 @@ using System.Collections.Generic;
 public class DragonMovement : MonoBehaviour
 {
     public float velocidad = 7f;
-    private Rigidbody2D rb;
-    private Vector2 inputs;
-    private Vector2 screenBounds;
     private float objectWidth;
     private float objectHeight;
+    private bool eggAppear = false;
+    private Vector2 finalPoint = new Vector2(0, -6f);
+    private Vector2 inputs;
+    private Vector2 screenBounds;
+    private Rigidbody2D rb;
     public GameObject fireballPrefab;
     public Transform puntoDeDisparo;
-    DragonHealth salud;
+    private HUD hud;
+    
 
     void Start()
     {
@@ -20,14 +23,26 @@ public class DragonMovement : MonoBehaviour
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
         objectWidth = transform.GetComponent<SpriteRenderer> ().bounds.size.x/2;
         objectHeight = transform.GetComponent<SpriteRenderer>().bounds.size.y/2;
-        salud = GetComponent<DragonHealth>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.instance.gameFinished) return;
+        if (GameManager.instance.gameFinished)  return;
 
+        if (GameManager.instance.firstLevelWon())
+        {
+            transform.position = Vector2.MoveTowards(transform.position, finalPoint, 3f * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), 5f * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, finalPoint) < 0.1f && !eggAppear)
+            {
+                eggAppear = true;
+                GameManager.instance.appearEgg();
+            }
+            return;
+        }
+    
         inputs.x = Input.GetAxisRaw("Horizontal");
         inputs.y = Input.GetAxisRaw("Vertical");
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -40,11 +55,11 @@ public class DragonMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angulo - 90);
 
         if (Input.GetButtonDown("Fire1"))
-        {
-            Disparar();
+           {
+                Disparar();
+           }
         }
 
-    }
 
     void Disparar ()
     {
@@ -69,18 +84,14 @@ public class DragonMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             GameManager.instance.LoseLifes();
-            if (salud.getActualHealth() > 1)
-            { 
-                salud.getDamage(1);
-                Destroy(collision.gameObject);
-            }
-            else
-            {
-                salud.getDamage(1);
-                Debug.Log("Aquí tienes inmunda bestia");
-                Destroy(gameObject);
-            }
+            Destroy(collision.gameObject);
         }
+
     }
 
+    public void startReturn()
+    {
+        GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
 }

@@ -25,7 +25,9 @@ public class Spawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if ((GameManager.instance.gameFinished) || (enemyPreFab.Length) <= 0)  return;
+        if ((GameManager.instance.gameFinished) || (enemyPreFab.Length) <= 0 )  return;
+
+        if (GameManager.instance.firstLevelWon()) return;
 
         int RandomInd = Random.Range(0, enemyPreFab.Length);
 

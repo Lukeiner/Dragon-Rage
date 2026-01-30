@@ -724,7 +724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   enemyPreFab:
   - {fileID: 4079002711229938761, guid: 582bf06308e5d2b418d5e2fd10ad961a, type: 3}
-  - {fileID: 1686989823405821310, guid: 30a37f8b42399e9479767de658446ee0, type: 3}
+  - {fileID: 4079002711229938761, guid: 582bf06308e5d2b418d5e2fd10ad961a, type: 3}
   - {fileID: 1686989823405821310, guid: 30a37f8b42399e9479767de658446ee0, type: 3}
   SpawnTime: 3
   rangeX: 8
@@ -1108,7 +1108,7 @@ SpriteRenderer:
   m_SortingOrder: -10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.73018867, g: 1, b: 0.75922877, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2007,8 +2007,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1624081094}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1246076970}
+        m_TargetAssemblyTypeName: HUD, Assembly-CSharp
         m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
@@ -2101,12 +2101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c659487aab0ac0544b1f0fa0644ac67c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  textPoints: {fileID: 0}
-  lifePoints: {fileID: 0}
-  lifes: 3
   gameFinished: 0
   hud: {fileID: 1246076970}
-  enemiesToWin: 10
+  enemiesToWin: 2
+  eggPreFab: {fileID: 3240593170233747671, guid: 864f2fc1d14d2174e8c06ad7523a1e33, type: 3}
 --- !u!1 &1676439254
 GameObject:
   m_ObjectHideFlags: 0
@@ -2333,7 +2331,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: RESTART
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

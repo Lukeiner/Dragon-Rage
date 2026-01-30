@@ -26,6 +26,11 @@ public class HUD : MonoBehaviour
         
     }
 
+    public bool gamePaused ()
+    {
+        return onPause;
+    }
+
     public void RestartLevel()
     {
         Time.timeScale = 1f;
