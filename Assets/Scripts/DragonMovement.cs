@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DragonMovement : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class DragonMovement : MonoBehaviour
             {
                 eggAppear = true;
                 GameManager.instance.appearEgg();
+                GameManager.instance.LoadNextLevel();
             }
             return;
         }
@@ -60,7 +62,6 @@ public class DragonMovement : MonoBehaviour
            }
         }
 
-
     void Disparar ()
     {
         Instantiate(fireballPrefab, puntoDeDisparo.position, puntoDeDisparo.rotation);
@@ -68,14 +69,19 @@ public class DragonMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector3 viewPos = transform.position;
-        viewPos.x = Mathf.Clamp(viewPos.x, screenBounds.x * -1 + objectWidth, screenBounds.x - objectWidth);
-        viewPos.y = Mathf.Clamp(viewPos.y, screenBounds.y * -1 + objectHeight, screenBounds.y  - objectHeight);
-        transform.position = viewPos;
+        if (!GameManager.instance.firstLevelWon())
+        {
+            Vector3 viewPos = transform.position;
+            viewPos.x = Mathf.Clamp(viewPos.x, screenBounds.x * -1 + objectWidth, screenBounds.x - objectWidth);
+            viewPos.y = Mathf.Clamp(viewPos.y, screenBounds.y * -1 + objectHeight, screenBounds.y - objectHeight);
+            transform.position = viewPos;
+        }
     }
 
     void FixedUpdate()
     {
+        if (GameManager.instance.firstLevelWon()) return;
+
         rb.MovePosition(rb.position + inputs.normalized * velocidad * Time.fixedDeltaTime);
     }
 
@@ -86,12 +92,18 @@ public class DragonMovement : MonoBehaviour
             GameManager.instance.LoseLifes();
             Destroy(collision.gameObject);
         }
-
     }
 
     public void startReturn()
     {
-        GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+
         transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }

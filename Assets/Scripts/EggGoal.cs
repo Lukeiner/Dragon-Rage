@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EggGoal : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class EggGoal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Destroy(gameObject);
+            SceneManager.LoadScene("Level2");
         }
     }
 }

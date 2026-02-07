@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
         if (DragonHealth.instance != null)
         {
             lifes = DragonHealth.instance.getActualHealth();
+            hud.updateEnemiesCount(0);
         }
         
     }
@@ -75,12 +76,14 @@ public class GameManager : MonoBehaviour
 
     public void LoseLifes ()
     {
+        if (firstLevelWin) return;
+
         if (DragonHealth.instance == null)
         {
             Debug.LogError("¡DragonHealth.instance no existe!");
             return;
         }
-        
+
         DragonHealth.instance.getDamage(1);
         hud.LifeOff(DragonHealth.instance.getActualHealth());
     }
@@ -107,7 +110,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(enemigo);
         }
-        
+
+        foreach (GameObject bala in GameObject.FindGameObjectsWithTag("EnemyBullet"))
+        {
+            Destroy(bala);
+        }
+
         Object.FindFirstObjectByType<DragonMovement>().startReturn();
     }
 
@@ -115,6 +123,12 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(eggPreFab, Vector3.zero, Quaternion.identity);
         Debug.Log("El huevo ha descendido");
+    }
+
+    public void LoadNextLevel()
+    {
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentIndex + 1);
     }
 
 }
