@@ -11,5 +11,5 @@
 * **Tools:** Aseprite, Trello, Aseprite
 
 ### 🎮 How to Play
-1. Download the latest build from the [Releases](link) section.
+1. Download the latest build from the [Releases]([link](https://github.com/Lukeiner/Dragon-Rage/releases/tag/v0.1.0)) section.
 2. Or clone the repository and open it in Unity:
