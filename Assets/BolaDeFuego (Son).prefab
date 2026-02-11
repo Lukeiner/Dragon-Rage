@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6863478447063059195}
   - component: {fileID: 6901769047992384068}
   m_Layer: 0
-  m_Name: BolaDeFuego
+  m_Name: BolaDeFuego (Son)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.43759, y: -5.25488, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4955424709689372953}
@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ce72e72ff733444963b876b7b50325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fireball
-  velocidad: 10
-  tiempoDeVida: 3
+  velocidad: 8
+  tiempoDeVida: 5
 --- !u!50 &8076668551973387971
 Rigidbody2D:
   serializedVersion: 5

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class DragonMovement : MonoBehaviour
 {
@@ -40,7 +40,6 @@ public class DragonMovement : MonoBehaviour
             {
                 eggAppear = true;
                 GameManager.instance.appearEgg();
-                GameManager.instance.LoadNextLevel();
             }
             return;
         }

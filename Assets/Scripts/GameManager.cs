@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -115,13 +117,13 @@ public class GameManager : MonoBehaviour
         {
             Destroy(bala);
         }
-
         Object.FindFirstObjectByType<DragonMovement>().startReturn();
     }
 
     public void appearEgg()
     {
         Instantiate(eggPreFab, Vector3.zero, Quaternion.identity);
+        StartCoroutine(timeSequence());
         Debug.Log("El huevo ha descendido");
     }
 
@@ -131,4 +133,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(currentIndex + 1);
     }
 
+    IEnumerator timeSequence()
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(eggPreFab);
+        LoadNextLevel();
+    }
 }
